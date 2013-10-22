@@ -224,14 +224,14 @@ func (conn *Conn) exec(sql string) ([]*Result, error) {
   }
   if C.dbsqlexec(conn.dbproc) == C.FAIL {
     if len(conn.Error) != 0 {
-      return nil, errors.New(conn.Error)
+      return nil, errors.New(conn.Error + conn.Message)
     } else {
       return nil, errors.New("dbsqlexec failed")
     }
   }
   rst, err := conn.fetchResults()
   if err == nil && len(conn.Error) > 0 {
-    return rst, errors.New(conn.Error)
+    return rst, errors.New(conn.Error + conn.Message)
   }
   return rst, err
 }
