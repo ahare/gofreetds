@@ -41,7 +41,7 @@ func (conn *Conn) fetchResults() ([]*Result, error) {
       typ := C.dbcoltype(conn.dbproc, no)
       bindTyp := dbbindtype(typ)
       result.AddColumn(name, int(size), int(typ))
-      if bindTyp == C.NTBSTRINGBIND && C.SYBCHAR != typ {
+      if bindTyp == C.NTBSTRINGBIND && C.SYBCHAR != typ && C.SYBTEXT != typ {
         size = C.DBINT(C.dbwillconvert(typ, C.SYBCHAR))
       }
       col := &columns[i]
